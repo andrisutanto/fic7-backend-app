@@ -19,6 +19,18 @@ class UserSeeder extends Seeder
             'name' => 'Andri Sutanto',
             'email' => 'test@example.com',
             'email_verified_at'  => now(),
+            'role' => 'admin',
+            'phone' => '08111111111',
+            'bio' => 'developer',
+            'password' => Hash::make('12345678'),
+        ]);
+        User::create([
+            'name' => 'Super Admin',
+            'email' => 'superadmin@example.com',
+            'email_verified_at'  => now(),
+            'role' => 'superadmin',
+            'phone' => '0811112222',
+            'bio' => 'laravel dev',
             'password' => Hash::make('12345678'),
         ]);
     }
