@@ -9,12 +9,23 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except(['index', 'show']);
+        // $this->authorizeResource(Category::class, 'category');
+    }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return ProductResource::collection(Product::paginate(10));
+        $categoryId = $request->input('category_id');
+        $userId = $request->input('user_id');
+        $products = Product::where('category_id', 'LIKE', '%' . $categoryId . '%')
+            ->where('user_id', 'LIKE', '%' . $userId . '%')
+            ->orderBy('created_at', 'desc')
+            ->paginate()->load('category', 'user');
+        return ProductResource::collection($products);
     }
 
     /**
@@ -30,7 +41,7 @@ class ProductController extends Controller
                 'image_url' => 'required',
                 'category_id' => 'required',
             ]),
-            'user_id' => 1,
+            'user_id' => $request->user()->id,
         ]);
 
         return $product;
@@ -41,8 +52,8 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        $product->load('category', 'user');  //jika ini saja, bisa return, namun responsenya
-        return new ProductResource($product); //responsenya menggunakan product resource
+        $product->load('category', 'user');
+        return new ProductResource($product);
     }
 
     /**

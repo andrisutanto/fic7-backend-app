@@ -13,9 +13,9 @@ class AuthServiceProvider extends ServiceProvider
     public static $permission = [
         'dashboard' => ['superadmin', 'admin'],
         'user-index' => ['admin'],
-        'payment-update' => ['superadmin']
-    ];
+        'payment-update' => ['superadmin'],
 
+    ];
     /**
      * The model to policy mappings for the application.
      *
@@ -30,19 +30,13 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        foreach(self::$permission as $feature => $roles){
-            Gate::define($feature, function(User $user) use ($roles){
-                if(in_array($user->role, $roles)) {
+
+        foreach (self::$permission as $feature => $roles) {
+            Gate::define($feature, function (User $user) use ($roles) {
+                if (in_array($user->role, $roles)) {
                     return true;
                 }
-            }); 
+            });
         }
-
-        //bisa tambahkan login utk authorization disini
-        // Gate::define('dashboard', function(User $user){
-        //     if($user->role == 'superadmin') {
-        //         return true;
-        //     }
-        // });
     }
 }

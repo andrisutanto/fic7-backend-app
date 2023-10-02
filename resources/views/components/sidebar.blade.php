@@ -20,7 +20,9 @@
                 </ul>
             </li>
             <li class="nav-item ">
-                <a href="{{ route('user.index') }}" class="nav-link "><i class="fas fa-users"></i><span>User List</span></a>
+                <a href="{{ route('user.index') }}" class="nav-link "><i class="fas fa-users"></i><span>User
+                        List</span></a>
             </li>
+
     </aside>
 </div>
